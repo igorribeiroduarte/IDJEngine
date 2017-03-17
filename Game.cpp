@@ -39,8 +39,8 @@ Game::Game(string title, int width, int height){
 Game::~Game(){
 	delete(state);
 	IMG_Quit();
-	SDL_DestroyRenderer();
-	SDL_DestroyWindow();
+	SDL_DestroyRenderer(renderer);
+	SDL_DestroyWindow(window);
 	SDL_Quit();
 }
 
@@ -48,7 +48,7 @@ Game *Game::GetInstance(){
 	return instance;
 }
 
-State &Game::GetState(){
+State *Game::GetState(){
 	return state;
 }
 
@@ -57,5 +57,10 @@ SDL_Renderer *Game::GetRenderer(){
 }
 
 void Game::Run(){
-
+	while(not state.QuitRequested()){
+		state.Update();
+		state.Render();
+		SDL_RenderPresent(renderer);
+		SDL_Delay(33);
+	}
 }
