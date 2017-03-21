@@ -4,6 +4,8 @@
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_image.h"
 
+#include "State.h"
+
 #include <string>
 
 using namespace std;
@@ -16,14 +18,14 @@ class Game{
 
 		void Run();
 
-		Game *GetInstance();
+		static Game *GetInstance();
 
 		State *GetState();
 
 		SDL_Renderer *GetRenderer();
 		
 	private:
-		Game *instance;
+		static Game *instance;
 
 		SDL_Window *window;
 

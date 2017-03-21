@@ -1,5 +1,8 @@
 #include "Game.h"
+
 #include <cstdio>
+
+Game* Game::instance = nullptr;
 
 Game::Game(string title, int width, int height){
 	if(instance != nullptr){
@@ -19,7 +22,7 @@ Game::Game(string title, int width, int height){
 		exit(1);
 	}
 
-	window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, width, height, 0);
+	window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, 0);
 
 	if(window == nullptr){
 		printf("Falha ao criar janela: %s\n", SDL_GetError());
@@ -38,9 +41,13 @@ Game::Game(string title, int width, int height){
 
 Game::~Game(){
 	delete(state);
+
 	IMG_Quit();
+
 	SDL_DestroyRenderer(renderer);
+
 	SDL_DestroyWindow(window);
+	
 	SDL_Quit();
 }
 
@@ -57,10 +64,13 @@ SDL_Renderer *Game::GetRenderer(){
 }
 
 void Game::Run(){
-	while(not state.QuitRequested()){
-		state.Update();
-		state.Render();
+	while(not state->QuitRequested()){
+		state->Update();
+		state->LoadAssets();
+		state->Render();
+
 		SDL_RenderPresent(renderer);
+
 		SDL_Delay(33);
 	}
 }

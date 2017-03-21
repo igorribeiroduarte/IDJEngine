@@ -6,7 +6,7 @@
 
 #include <string>
 
-using namespace std;
+using std::string;
 
 class Sprite{
 	public:
@@ -26,7 +26,8 @@ class Sprite{
 	private:
 		SDL_Texture *texture;
 
-		SDL_Rect clipRect;
+		SDL_Rect *clipRect;
+		SDL_Rect *dstRect;
 
 		int width;
 		int height;

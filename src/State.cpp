@@ -1,20 +1,26 @@
 #include "State.h"
 
+#include "Sprite.h"
+
 State::State(){
 	quitRequested = false;
 	bg = new Sprite();
 }
 
-void State::LoadAssets(){
-	
+State::~State(){
+	delete(bg);
 }
 
-void State::Update(float dt){
+void State::LoadAssets(){
+	bg->Open("res/img/ocean.jpg");
+}
+
+void State::Update(){
 	quitRequested = SDL_QuitRequested();	
 }
 
 void State::Render(){
-	//Renderizar fundo(bg) de forma a preencher a tela //TODO	
+	bg->Render(0, 0);
 }
 
 bool State::QuitRequested(){

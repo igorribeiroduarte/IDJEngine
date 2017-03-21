@@ -3,9 +3,12 @@
 
 #include "SDL2/SDL.h"
 
+class Sprite;
+
 class State{
 	public:
 		State();
+		~State();
 
 		bool QuitRequested();
 
@@ -14,7 +17,7 @@ class State{
 		void Render();
 
 	private:
-		Sprite bg;
+		Sprite *bg;
 
 		bool quitRequested;
 };
