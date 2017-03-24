@@ -2,6 +2,10 @@
 #define STATE_H
 
 #include "SDL2/SDL.h"
+#include "GameObject.h"
+
+#include <memory>
+#include <vector>
 
 class Sprite;
 
@@ -15,11 +19,15 @@ class State{
 		void LoadAssets();
 		void Update();
 		void Render();
+		void Input();
+		void AddObject(float mouseX, float mouseY);
 
 	private:
 		Sprite *bg;
 
 		bool quitRequested;
+
+		std::vector < std::unique_ptr <GameObject> > objectArray;
 };
 
 #endif

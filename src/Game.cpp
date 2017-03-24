@@ -64,9 +64,10 @@ SDL_Renderer *Game::GetRenderer(){
 }
 
 void Game::Run(){
+	state->LoadAssets();
+
 	while(not state->QuitRequested()){
 		state->Update();
-		state->LoadAssets();
 		state->Render();
 
 		SDL_RenderPresent(renderer);
