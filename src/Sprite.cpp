@@ -13,6 +13,7 @@ Sprite::Sprite(string file){
 Sprite::~Sprite(){
 	SDL_DestroyTexture(texture);
 	delete(clipRect);
+	delete(dstRect);
 }
 
 void Sprite::Open(string file){
