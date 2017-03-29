@@ -1,6 +1,8 @@
 #include "Game.h"
 
 #include <cstdio>
+#include <cstdlib>
+#include <ctime>
 
 Game* Game::instance = nullptr;
 
@@ -36,6 +38,8 @@ Game::Game(string title, int width, int height){
 		exit(1);
 	}
 
+	srand(time(NULL));
+
 	state = new State();
 }
 
@@ -69,6 +73,7 @@ void Game::Run(){
 	while(not state->QuitRequested()){
 		state->Update();
 		state->Render();
+		state->Input();
 
 		SDL_RenderPresent(renderer);
 

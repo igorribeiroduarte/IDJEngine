@@ -20,7 +20,7 @@ class State{
 		void Update();
 		void Render();
 		void Input();
-		void AddObject(float mouseX, float mouseY);
+		void AddObject(double mouseX, double mouseY);
 
 	private:
 		Sprite *bg;

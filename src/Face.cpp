@@ -1,8 +1,8 @@
 #include "Face.h"
 
-Face::Face(float x, float y){
+Face::Face(double x, double y){
 	sp = new Sprite("res/img/penguinface.png");
-	box = new Rect { x, y, sp->GetWidth(), sp->GetHeight() };
+	box = new Rect(x, y, sp->GetWidth(), sp->GetHeight());
 }
 
 Face::~Face(){
@@ -14,12 +14,13 @@ void Face::Damage(int damage){
 	hitpoints -= damage;
 }
 
-void Face::Update(float){
+void Face::Update(double){
 
 }
 
 void Face::Render(){
 	sp->Render(box->x, box->y);
+//	printf("%f %f\n", box->x, box->y);
 }
 
 bool Face::IsDead(){

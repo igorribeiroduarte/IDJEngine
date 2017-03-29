@@ -1,6 +1,9 @@
 #include "State.h"
-
 #include "Sprite.h"
+#include "Face.h"
+#include "Vec2.h"
+
+#include <cstdlib>
 
 State::State(){
 	quitRequested = false;
@@ -33,18 +36,17 @@ void State::Input() {
 
 		// Se o evento for clique...
 		if(event.type == SDL_MOUSEBUTTONDOWN) {
-
 			// Percorrer de trás pra frente pra sempre clicar no objeto mais de cima
 			for(int i = objectArray.size() - 1; i >= 0; i--){
 				// Obtem o ponteiro e casta pra Face.
-				Face* face = (Face*) objectArray[i].get();
+				Face *face = (Face*) objectArray[i].get();
 				// Nota: Desencapsular o ponteiro é algo que devemos evitar ao máximo.
 				// O propósito do unique_ptr é manter apenas uma cópia daquele ponteiro,
 				// ao usar get(), violamos esse princípio e estamos menos seguros.
 				// Esse código, assim como a classe Face, é provisório. Futuramente, para
 				// chamar funções de GameObjects, use objectArray[i]->função() direto.
 
-				if(face->box.IsInside((float)mouseX, (float)mouseY)){
+				if(face->box->IsInside((double)mouseX, (double)mouseY)){
 					// Aplica dano
 					face->Damage(rand() % 10 + 10);
 					// Sai do loop (só queremos acertar um)
@@ -60,7 +62,7 @@ void State::Input() {
 			}
 			// Se não, crie um objeto
 			else{
-				AddObject((float)mouseX, (float)mouseY);
+				AddObject((double)mouseX, (double)mouseY);
 			}
 		}
 	}
@@ -72,6 +74,23 @@ void State::Update(){
 
 void State::Render(){
 	bg->Render(0, 0);
+
+	for(int i = 0; i < (int) objectArray.size(); i++){
+		objectArray[i]->Render();
+	}
+}
+
+void State::AddObject(double mouseX, double mouseY){
+	double angle = ((rand() % 360) * acos(-1))/180.0;
+
+	Vec2 *vec = new Vec2(mouseX, mouseY);
+
+	vec = vec->translate(200, 0);
+	vec = vec->rotate(angle, mouseX, mouseY);
+
+	Face *face = new Face(vec->x, vec->y);
+
+	objectArray.emplace_back(face);
 }
 
 bool State::QuitRequested(){

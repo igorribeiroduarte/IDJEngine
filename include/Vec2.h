@@ -3,9 +3,19 @@
 
 class Vec2{
 	public:
-		float x;
-		float y;
-};
+		double x, y;
+	
+		Vec2(double x, double y);
 
+		double length();
+
+		void normalize();
+
+		Vec2 *translate(double dx, double dy);
+		Vec2 *rotate(double angle);
+		Vec2 *rotate(double angle, double px, double py);
+
+	private:
+};
 
 #endif

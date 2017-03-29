@@ -6,11 +6,11 @@
 
 class Face : public GameObject{
 	public:
-		Face(float x, float y);
+		Face(double x, double y);
 		~Face();
 
 		void Damage(int damage);
-		void Update(float dt);
+		void Update(double dt);
 		void Render();
 
 		bool IsDead();

@@ -3,10 +3,14 @@
 
 class Rect{
 	public:
-		float x;
-		float y;
-		float width;
-		float height;
+		//Left top point
+		double x, y;
+
+		double width, height;
+
+		Rect(double px, double py, double w, double h);
+
+		bool IsInside(double x, double y);
 };
 
 #endif
