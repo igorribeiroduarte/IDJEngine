@@ -69,14 +69,22 @@ void State::Input() {
 }
 
 void State::Update(){
+	for(int i = 0; i < (int) objectArray.size(); i++){
+		if(objectArray[i]->IsDead())
+			objectArray.erase(objectArray.begin() + i);
+	}
 
+	for(auto it = objectArray.begin(); it < objectArray.end(); it++){
+		if((*it)->IsDead())
+			objectArray.erase(it);
+	}
 }
 
 void State::Render(){
 	bg->Render(0, 0);
 
-	for(int i = 0; i < (int) objectArray.size(); i++){
-		objectArray[i]->Render();
+	for(auto &it : objectArray){
+		it->Render();
 	}
 }
 
@@ -89,6 +97,8 @@ void State::AddObject(double mouseX, double mouseY){
 	vec = vec->rotate(angle, mouseX, mouseY);
 
 	Face *face = new Face(vec->x, vec->y);
+
+	delete(vec);
 
 	objectArray.emplace_back(face);
 }

@@ -3,9 +3,9 @@
 using namespace std;
 
 int main(int argc, char **argv){
-	Game *game = new Game("Igor Duarte, 14/0098275", 1024, 600);	
+	Game game("Igor Duarte, 14/0098275", 1024, 600);	
 
-	game->Run();
+	game.Run();
 
 	return 0;
 }
