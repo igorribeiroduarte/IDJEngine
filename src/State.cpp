@@ -7,7 +7,11 @@
 
 State::State(){
 	quitRequested = false;
+
 	bg = new Sprite();
+
+	tileSet = new TileSet(64, 64, "res/img/tileset.png");
+	tileMap = new TileMap("res/map/tileMap.txt", tileSet);
 }
 
 State::~State(){
@@ -82,6 +86,7 @@ void State::Update(){
 
 void State::Render(){
 	bg->Render(0, 0);
+	tileMap->Render(0, 0);
 
 	for(auto &it : objectArray){
 		it->Render();

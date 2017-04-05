@@ -3,6 +3,8 @@
 
 #include "SDL2/SDL.h"
 #include "GameObject.h"
+#include "TileSet.h"
+#include "TileMap.h"
 
 #include <memory>
 #include <vector>
@@ -24,6 +26,9 @@ class State{
 
 	private:
 		Sprite *bg;
+
+		TileMap *tileMap;
+		TileSet *tileSet;
 
 		bool quitRequested;
 
