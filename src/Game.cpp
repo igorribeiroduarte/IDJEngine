@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "Resources.h"
 
 #include <cstdio>
 #include <cstdlib>
@@ -79,4 +80,6 @@ void Game::Run(){
 
 		SDL_Delay(33);
 	}
+
+	Resources::ClearImages();
 }
