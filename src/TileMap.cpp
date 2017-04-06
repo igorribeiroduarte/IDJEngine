@@ -63,7 +63,8 @@ int &TileMap::At(int x, int y, int z){
 void TileMap::RenderLayer(int layer, int, int){
 	for(int y = 0; y < mapHeight; y++){
 		for(int x = 0; x < mapWidth; x++){
-			tileSet->Render(At(x, y, layer), x * mapWidth, y * mapHeight);
+			tileSet->Render(At(x, y, layer), x * tileSet->GetTileWidth(), 
+			y * tileSet->GetTileHeight());
 		}
 	}
 }

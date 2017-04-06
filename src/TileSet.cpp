@@ -17,10 +17,13 @@ TileSet::~TileSet(){
 void TileSet::Render(int index, double x, double y){
 	if(index >= rows * columns){
 		printf("Falha ao renderizar tile, índice inválido\n");
-//		exit(1);
+		exit(1);
 	}
 
-	tileSet->SetClip((int)x, (int)y, tileWidth, tileHeight);
+	int xx = (index % columns) * tileWidth;
+	int yy = (index / columns) * tileHeight;
+
+	tileSet->SetClip(xx, yy, tileWidth, tileHeight);
 	tileSet->Render((int)x, (int)y);
 }
 
