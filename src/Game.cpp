@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "Resources.h"
+#include "InputManager.h"
 
 #include <cstdio>
 #include <cstdlib>
@@ -72,9 +73,10 @@ void Game::Run(){
 	state->LoadAssets();
 
 	while(not state->QuitRequested()){
+		InputManager::GetInstance().Update();
+
 		state->Update();
 		state->Render();
-		state->Input();
 
 		SDL_RenderPresent(renderer);
 

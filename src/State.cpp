@@ -1,5 +1,6 @@
 #include "State.h"
 #include "Sprite.h"
+#include "InputManager.h"
 #include "Face.h"
 #include "Vec2.h"
 
@@ -22,7 +23,7 @@ State::~State(){
 void State::LoadAssets(){
 	bg->Open("res/img/ocean.jpg");
 }
-
+/*
 void State::Input() {
 	SDL_Event event;
 	int mouseX, mouseY;
@@ -71,8 +72,19 @@ void State::Input() {
 		}
 	}
 }
+*/
 
 void State::Update(){
+	static InputManager inputManager = InputManager::GetInstance();
+	
+	if(inputManager.KeyPress(SDLK_ESCAPE)){
+		quitRequested = true;
+	}
+
+	if(inputManager.KeyPress(SDLK_SPACE)){
+		AddObject((double)inputManager.GetMouseX(), (double)inputManager.GetMouseY());
+	}
+
 	for(int i = 0; i < (int) objectArray.size(); i++){
 		if(objectArray[i]->IsDead())
 			objectArray.erase(objectArray.begin() + i);
