@@ -14,4 +14,6 @@ void Resources::ClearImages(){
 	for(auto &image : imageTable){
 		SDL_DestroyTexture(image.second);
 	}
+
+	imageTable.clear();
 }

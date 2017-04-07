@@ -20,11 +20,48 @@ LIBS =  `sdl2-config --libs` -lSDL2_image -lSDL2_ttf -lSDL2_mixer -ldl
 SRC = ${wildcard $(SRC_DIR)/*.cpp}
 OBJ = ${addprefix $(OBJ_DIR)/, ${notdir ${SRC:.cpp=.o}}}
 
+RMDIR = rm -rf
+
+#--------------------------------------------------------------
+ifeq ($(OS), Windows_NT)
+
+RMDIR = rd /s /q
+
+SDL_PATH = c:\SDL2-2.0.5\x86_64-w64-mingw32
+
+INCLUDES += -I $(SDL_PATH)\include
+
+LIBS = -L $(SDL_PATH)\lib -lmingw32 -lSDL2main
+	   -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf -lm
+
+NAME = $(NAME).exe
+#--------------------------------------------------------------
+else
+
+UNAME_S := $(shell uname -s)
+
+ifeq ($(UNAME_S), Darwin)
+
+LIBS = -lm -framework SDL2 -framework SDL2_image -framework SDL2_mixer 
+	   -framework SDL_TTF
+	
+#-------------------------------------------------------------
+
+endif
+endif
+
 .PHONY: clean depend dist-clean dist
 
 all:
+#-------------------------------------------------------------
+ifeq ($(OS), Windows_NT)
+	@if not exist $(OBJ_DIR) @mkdir $(OBJ_DIR)
+	@if not exist $(BIN_DIR) @mkdir $(BIN_DIR)
+else
 	@mkdir -p $(OBJ_DIR) $(BIN_DIR)
 	$(MAKE) $(TARGET)
+endif
+#-------------------------------------------------------------
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@echo Building $@
@@ -51,8 +88,8 @@ clean:
 	@echo Cleaning...
 	@find . -name *.o -exec rm {} \;
 	@find . -name *.d -exec rm {} \;
-	@rm -rf *~ *.o prog out.txt
+	@$(RMDIR) *~ *.o prog out.txt
 
 dist-clean: clean
-	@rm -f $(TARGET)/$(NAME)
-	@rm -rf *.tar.gz $(OBJ_DIR) $(BIN_DIR)
+	@$(RMDIR) $(TARGET)/$(NAME)
+	@$(RMDIR) *.tar.gz $(OBJ_DIR) $(BIN_DIR)
