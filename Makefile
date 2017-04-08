@@ -1,5 +1,4 @@
 NAME = Game
-
 SRC_DIR = src
 INC_DIR = include
 OBJ_DIR = obj
@@ -14,8 +13,8 @@ CFLAGS = -pedantic -std=c++11 -MMD -g3 -g -fPIC\
 		 -Wmissing-include-dirs -Wnoexcept -Woverloaded-virtual -Wredundant-decls\
 		 -Wsign-promo -Wstrict-null-sentinel -Wswitch-default -Wundef\
 		 -Wzero-as-null-pointer-constant -Wuseless-cast -Wnon-virtual-dtor
-INCLUDES = -Iinclude `sdl2-config --cflags`
-LIBS =  `sdl2-config --libs` -lSDL2_image -lSDL2_ttf -lSDL2_mixer -ldl
+INCLUDES = -Iinclude/
+LIBS = `sdl2-config --libs` -lSDL2_image -lSDL2_ttf -lSDL2_mixer -ldl
 
 SRC = ${wildcard $(SRC_DIR)/*.cpp}
 OBJ = ${addprefix $(OBJ_DIR)/, ${notdir ${SRC:.cpp=.o}}}
@@ -25,16 +24,14 @@ RMDIR = rm -rf
 #--------------------------------------------------------------
 ifeq ($(OS), Windows_NT)
 
-RMDIR = rd /s /q
+SDL_PATH = C:\SDL-2.0.5
 
-SDL_PATH = c:\SDL2-2.0.5\x86_64-w64-mingw32
+INCLUDES = -Iinclude/ -I$(SDL_PATH)\include
 
-INCLUDES += -I $(SDL_PATH)\include
-
-LIBS = -L $(SDL_PATH)\lib -lmingw32 -lSDL2main
+LIBS = -L $(SDL_PATH)\lib -lSDL2main\
 	   -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf -lm
 
-NAME = $(NAME).exe
+NAME := $(NAME).exe
 #--------------------------------------------------------------
 else
 
@@ -54,13 +51,8 @@ endif
 
 all:
 #-------------------------------------------------------------
-ifeq ($(OS), Windows_NT)
-	@if not exist $(OBJ_DIR) @mkdir $(OBJ_DIR)
-	@if not exist $(BIN_DIR) @mkdir $(BIN_DIR)
-else
 	@mkdir -p $(OBJ_DIR) $(BIN_DIR)
 	$(MAKE) $(TARGET)
-endif
 #-------------------------------------------------------------
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
@@ -86,10 +78,11 @@ crun:
 
 clean:
 	@echo Cleaning...
-	@find . -name *.o -exec rm {} \;
-	@find . -name *.d -exec rm {} \;
-	@$(RMDIR) *~ *.o prog out.txt
+	@$(RMDIR) *~ *.o
 
 dist-clean: clean
 	@$(RMDIR) $(TARGET)/$(NAME)
 	@$(RMDIR) *.tar.gz $(OBJ_DIR) $(BIN_DIR)
+
+print-%:
+	@echo $* = $($*)
