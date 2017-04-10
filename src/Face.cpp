@@ -2,7 +2,7 @@
 #include "InputManager.h"
 
 Face::Face(double x, double y){
-	sp = new Sprite("res/img/penguinface.png");
+	sp = new Sprite("img/penguinface.png");
 	box = new Rect(x, y, sp->GetWidth(), sp->GetHeight());
 	hitpoints = 30;
 }

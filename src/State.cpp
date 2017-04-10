@@ -5,14 +5,15 @@
 #include "Vec2.h"
 
 #include <cstdlib>
+#include <cmath>
 
 State::State(){
 	quitRequested = false;
 
 	bg = new Sprite();
 
-	tileSet = new TileSet(64, 64, "res/img/tileset.png");
-	tileMap = new TileMap("res/map/tileMap.txt", tileSet);
+	tileSet = new TileSet(64, 64, "img/tileset.png");
+	tileMap = new TileMap("map/tileMap.txt", tileSet);
 }
 
 State::~State(){
@@ -21,7 +22,7 @@ State::~State(){
 }
 
 void State::LoadAssets(){
-	bg->Open("res/img/ocean.jpg");
+	bg->Open("img/ocean.jpg");
 }
 /*
 void State::Input() {
