@@ -24,7 +24,7 @@ State::~State(){
 void State::LoadAssets(){
 	bg->Open("img/ocean.jpg");
 }
-/*
+
 void State::Input() {
 	SDL_Event event;
 	int mouseX, mouseY;
@@ -73,12 +73,14 @@ void State::Input() {
 		}
 	}
 }
-*/
+
 
 void State::Update(){
-	static InputManager inputManager = InputManager::GetInstance();
+	InputManager inputManager = InputManager::GetInstance();
+
+	inputManager.Update();
 	
-	if(inputManager.KeyPress(SDLK_ESCAPE)){
+	if(inputManager.KeyPress(SDLK_ESCAPE) || inputManager.QuitRequested()){
 		quitRequested = true;
 	}
 
@@ -86,14 +88,11 @@ void State::Update(){
 		AddObject((double)inputManager.GetMouseX(), (double)inputManager.GetMouseY());
 	}
 
-	for(int i = 0; i < (int) objectArray.size(); i++){
-		if(objectArray[i]->IsDead())
-			objectArray.erase(objectArray.begin() + i);
-	}
-
 	for(auto it = objectArray.begin(); it < objectArray.end(); it++){
-		if((*it)->IsDead())
-			objectArray.erase(it);
+		(*it)->Update(2.0);
+
+	//	if((*it)->IsDead())
+	//		objectArray.erase(it);
 	}
 }
 

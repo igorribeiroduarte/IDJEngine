@@ -73,8 +73,6 @@ void Game::Run(){
 	state->LoadAssets();
 
 	while(not state->QuitRequested()){
-		InputManager::GetInstance().Update();
-
 		state->Update();
 		state->Render();
 
