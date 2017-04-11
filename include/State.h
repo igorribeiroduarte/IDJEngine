@@ -19,7 +19,7 @@ class State{
 		bool QuitRequested();
 
 		void LoadAssets();
-		void Update();
+		void Update(double dt);
 		void Render();
 		void Input();
 		void AddObject(double mouseX, double mouseY);

@@ -52,9 +52,7 @@ void InputManager::Update(){
 
 		//Clique
 		if(event.type == SDL_MOUSEBUTTONDOWN){	
-			printf("%d\n", (int)event.button.button);
 			mouseState[event.button.button] = true;
-			printf("%d\n", (int)IsMouseDown(event.button.button));
 			mouseUpdate[event.button.button] = updateCounter;
 		}
 
@@ -62,7 +60,6 @@ void InputManager::Update(){
 		if(event.type == SDL_MOUSEBUTTONUP){
 			mouseState[event.button.button] = false;
 			mouseUpdate[event.button.button] = updateCounter;
-			printf("%d\n", (int)IsMouseDown(event.button.button));
 		}
 	}
 }
@@ -92,20 +89,10 @@ bool InputManager::KeyPress(int key){
 }
 
 bool InputManager::IsMouseDown(int button){
-//	return true;
-	if(mouseState[button]){
-		printf("AJFPEAIFJAIJEAIJP\n");
-		return true;
-	}else
-		return false;
-
-	//return true;
-	printf("mouseState[%d]=%d\n", button, (int)mouseState[button]);
-	return mouseState[button] == true; 
+	return mouseState[button]; 
 }
 
 bool InputManager::MouseRelease(int button){
-	if(updateCounter==0) return false;
 	return ((mouseUpdate[button] == updateCounter) and (not IsMouseDown(button)));
 }
 

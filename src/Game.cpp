@@ -43,6 +43,9 @@ Game::Game(string title, int width, int height){
 	srand(time(NULL));
 
 	state = new State();
+
+	frameStart = 0;
+	dt = 0;
 }
 
 Game::~Game(){
@@ -73,7 +76,7 @@ void Game::Run(){
 	state->LoadAssets();
 
 	while(not state->QuitRequested()){
-		state->Update();
+		state->Update(dt);
 		state->Render();
 
 		SDL_RenderPresent(renderer);
@@ -82,4 +85,16 @@ void Game::Run(){
 	}
 
 	Resources::ClearImages();
+}
+
+void Game::CalculateDeltaTime(){
+	int frameEnd = SDL_GetTicks();
+
+	dt = (frameEnd - frameStart) / 1000.0;
+
+	frameStart = frameEnd;
+}
+
+double Game::GetDeltaTime(){
+	return dt;
 }

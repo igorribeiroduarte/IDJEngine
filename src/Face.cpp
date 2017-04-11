@@ -17,16 +17,13 @@ void Face::Damage(int damage){
 }
 
 void Face::Update(double){
-	InputManager inputManager = InputManager::GetInstance();
+	InputManager &inputManager = InputManager::GetInstance();
 
 	for(int i = 0; i < 6; i++){
-		if(inputManager.IsMouseDown(i) || inputManager.MousePress(i)){
-			exit(1);
-			printf("to dentro\n");
-//			if(box->IsInside(inputManager.GetMouseX(), inputManager.GetMouseY())){
+		if(inputManager.MousePress(i)){
+			if(box->IsInside(inputManager.GetMouseX(), inputManager.GetMouseY())){
 				Damage(rand() % 10 + 10);
-				hitpoints=0;
-//			}
+			}
 		}
 	}
 }
