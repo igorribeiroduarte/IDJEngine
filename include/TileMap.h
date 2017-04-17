@@ -2,6 +2,7 @@
 #define TILEMAP_H
 
 #include "TileSet.h"
+#include "Vec2.h"
 
 #include <vector>
 
@@ -12,8 +13,8 @@ class TileMap{
 
 		void Load(string file);
 		void SetTileSet(TileSet *tileSet);
-		void Render(int cameraX = 0, int cameraY = 0);
-		void RenderLayer(int layer, int cameraX = 0, int cameraY = 0);
+		void Render(Vec2 *camera);
+		void RenderLayer(int layer, Vec2 *camera);
 
 		int &At(int x, int y, int z = 0);
 		int GetWidth();

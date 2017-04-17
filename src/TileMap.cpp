@@ -60,17 +60,17 @@ int &TileMap::At(int x, int y, int z){
 	return tileMatrix[index];
 }
 
-void TileMap::RenderLayer(int layer, int, int){
+void TileMap::RenderLayer(int layer, Vec2 *camera){
 	for(int y = 0; y < mapHeight; y++){
 		for(int x = 0; x < mapWidth; x++){
-			tileSet->Render(At(x, y, layer), x * tileSet->GetTileWidth(), 
-			y * tileSet->GetTileHeight());
+			tileSet->Render(At(x, y, layer), x * tileSet->GetTileWidth() + camera[layer].x, 
+			y * tileSet->GetTileHeight() + camera[layer].y);
 		}
 	}
 }
 
-void TileMap::Render(int, int){
+void TileMap::Render(Vec2 *camera){
 	for(int layer = 0; layer < mapDepth; layer++){
-		RenderLayer(layer);
+		RenderLayer(layer, camera);
 	}
 }

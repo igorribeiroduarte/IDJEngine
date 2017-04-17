@@ -76,6 +76,8 @@ void Game::Run(){
 	state->LoadAssets();
 
 	while(not state->QuitRequested()){
+		CalculateDeltaTime();
+
 		state->Update(dt);
 		state->Render();
 

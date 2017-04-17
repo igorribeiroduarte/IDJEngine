@@ -3,6 +3,7 @@
 #include "InputManager.h"
 #include "Face.h"
 #include "Vec2.h"
+#include "Camera.h"
 
 #include <cstdlib>
 #include <cmath>
@@ -27,8 +28,11 @@ void State::LoadAssets(){
 
 void State::Update(double dt){
 	InputManager &inputManager = InputManager::GetInstance();
+	Camera camera;
 
 	inputManager.Update();
+
+	camera.Update(dt);
 	
 	if(inputManager.KeyPress(SDLK_ESCAPE) || inputManager.QuitRequested()){
 		quitRequested = true;
@@ -48,16 +52,19 @@ void State::Update(double dt){
 
 void State::Render(){
 	bg->Render(0, 0);
-	tileMap->Render(0, 0);
+
+	tileMap->RenderLayer(0, Camera::pos);
 
 	for(auto &it : objectArray){
 		it->Render();
 	}
+
+	tileMap->RenderLayer(1, Camera::pos);
 }
 
 void State::AddObject(double mouseX, double mouseY){
 	double angle = ((rand() % 360) * acos(-1))/180.0;
-
+	
 	Vec2 *vec = new Vec2(mouseX, mouseY);
 
 	vec = vec->translate(200, 0);

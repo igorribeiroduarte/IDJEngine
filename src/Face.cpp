@@ -1,5 +1,6 @@
 #include "Face.h"
 #include "InputManager.h"
+#include "Camera.h"
 
 Face::Face(double x, double y){
 	sp = new Sprite("img/penguinface.png");
@@ -29,7 +30,7 @@ void Face::Update(double){
 }
 
 void Face::Render(){
-	sp->Render(box->x, box->y);
+	sp->Render(box->x + Camera::pos[0].x, box->y + Camera::pos[0].y);
 }
 
 bool Face::IsDead(){

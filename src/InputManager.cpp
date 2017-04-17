@@ -1,12 +1,17 @@
 #include "InputManager.h"
+#include "Camera.h"
 
 #include <SDL2/SDL.h>
+#include <cstring>
 
 InputManager::InputManager(){
 	quitRequested = false;
 	updateCounter = 0;
 	mouseX = 0;
 	mouseY = 0;
+
+	memset(mouseState, false, sizeof mouseState);
+	memset(mouseUpdate, 0, sizeof mouseUpdate);
 }
 
 InputManager::~InputManager(){
@@ -25,6 +30,9 @@ void InputManager::Update(){
 
 	//Obtenha as coordenadas do mouse
 	SDL_GetMouseState(&mouseX, &mouseY);
+
+	mouseX -= Camera::pos[0].x;
+	mouseY -= Camera::pos[0].y;
 
 	quitRequested = false;
 
