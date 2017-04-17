@@ -1,17 +1,18 @@
 #ifndef INPUTMANAGER_H
 #define INPUTMANAGER_H
 
+#include <SDL2/SDL.h>
 #include <unordered_map>
-
-#define LEFT_ARROW_KEY SDLK_LEFT
-#define RIGHT_ARROW_KEY SDLK_RIGHT
-#define UP_ARROW_KEY SDLK_UP
-#define DOWN_ARROW_KEY SDLK_DOWN
-#define ESCAPE_KEY SDLK_ESCAPE
-#define LEFT_MOUSE_BUTTONSDL_BUTTON_LEFT
 
 class InputManager{
 	public:
+		static const int LEFT_ARROW_KEY = SDLK_LEFT;
+		static const int RIGHT_ARROW_KEY = SDLK_RIGHT;
+		static const int DOWN_ARROW_KEY = SDLK_DOWN;
+		static const int UP_ARROW_KEY = SDLK_UP;
+		static const int ESCAPE_KEY = SDLK_ESCAPE;
+		static const int LEFT_MOUSE_BUTTON = SDL_BUTTON_LEFT;
+
 		InputManager();
 		~InputManager();
 

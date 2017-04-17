@@ -1,7 +1,6 @@
 #include "InputManager.h"
 #include "Camera.h"
 
-#include <SDL2/SDL.h>
 #include <cstring>
 
 InputManager::InputManager(){
