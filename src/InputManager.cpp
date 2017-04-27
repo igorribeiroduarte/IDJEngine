@@ -106,4 +106,3 @@ bool InputManager::MouseRelease(int button){
 bool InputManager::MousePress(int button){
 	return ((mouseUpdate[button] == updateCounter) and (IsMouseDown(button)));
 }
-

@@ -12,6 +12,7 @@ class InputManager{
 		static const int UP_ARROW_KEY = SDLK_UP;
 		static const int ESCAPE_KEY = SDLK_ESCAPE;
 		static const int LEFT_MOUSE_BUTTON = SDL_BUTTON_LEFT;
+		static const int RIGHT_MOUSE_BUTTON = SDL_BUTTON_RIGHT;
 
 		InputManager();
 		~InputManager();
