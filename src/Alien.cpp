@@ -2,14 +2,19 @@
 #include "InputManager.h"
 #include "Camera.h"
 
+#include <cmath>
+
 Alien::Alien(double x, double y, int nMinions){
 	sp = new Sprite("img/alien.png");
 	box = new Rect(x, y, sp->GetWidth(), sp->GetHeight());
 	speed = Vec2(0, 0);
 	hp = 30;
 	
+	double arc = 0;
 	for(int i = 0; i < nMinions; i++){
-		minionArray.emplace_back(new Minion(this, 0));
+		double PI = acos(-1);
+		arc += 2 * PI / nMinions;
+		minionArray.emplace_back(new Minion(this, arc));
 	}
 }
 
@@ -66,8 +71,10 @@ void Alien::Update(double dt){
 void Alien::Render(){
 	sp->Render(box->x + Camera::pos[0].x, box->y + Camera::pos[0].y);	
 
-	for(auto &it : minionArray)
+	for(auto &it : minionArray){
+		it->Update();
 		it->Render();
+	}
 }
 
 bool Alien::IsDead(){

@@ -9,7 +9,7 @@ class Minion : public GameObject{
 	public:
 		Minion(GameObject *minionCenter, double arcOffset = 0);
 
-		void Update(double dt);
+		void Update(double dt = 0);
 		void Render();
 		void Shoot(Vec2 pos);
 		
