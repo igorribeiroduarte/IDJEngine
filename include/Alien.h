@@ -3,10 +3,12 @@
 
 #include "GameObject.h"
 #include "Sprite.h"
+#include "Minion.h"
 #include "Vec2.h"
 
-#include <queue>
+#include <memory>
 #include <vector>
+#include <queue>
 
 class Alien : public GameObject{
 	public:
@@ -33,14 +35,14 @@ class Alien : public GameObject{
 				Vec2 pos;
 		};
 
-		Sprite sp;
+		Sprite *sp;
 
 		Vec2 speed;
 
 		int hp;
 
 		std::queue <Action> taskQueue;
-		std::vector <Minion> minionArray;
+		std::vector < std::unique_ptr <Minion> > minionArray;
 };
 
 #endif

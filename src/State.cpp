@@ -2,6 +2,7 @@
 #include "Sprite.h"
 #include "InputManager.h"
 #include "Face.h"
+#include "Alien.h"
 #include "Vec2.h"
 #include "Camera.h"
 
@@ -15,6 +16,9 @@ State::State(){
 
 	tileSet = new TileSet(64, 64, "img/tileset.png");
 	tileMap = new TileMap("map/tileMap.txt", tileSet);
+
+	Alien *alien = new Alien(512, 300, 5);
+	objectArray.emplace_back(alien);
 }
 
 State::~State(){
@@ -39,7 +43,7 @@ void State::Update(double dt){
 	}
 
 	if(inputManager.KeyPress(SDLK_SPACE)){
-		AddObject((double)inputManager.GetMouseX(), (double)inputManager.GetMouseY());
+		//AddObject((double)inputManager.GetMouseX(), (double)inputManager.GetMouseY());
 	}
 
 	for(auto it = objectArray.begin(); it < objectArray.end(); it++){
@@ -55,13 +59,13 @@ void State::Render(){
 
 	tileMap->RenderLayer(0, Camera::pos);
 
-	for(auto &it : objectArray){
+	for(auto &it : objectArray)
 		it->Render();
-	}
 
 	tileMap->RenderLayer(1, Camera::pos);
 }
 
+/*
 void State::AddObject(double mouseX, double mouseY){
 	double angle = ((rand() % 360) * acos(-1))/180.0;
 	
@@ -75,7 +79,7 @@ void State::AddObject(double mouseX, double mouseY){
 	delete(vec);
 
 	objectArray.emplace_back(face);
-}
+}*/
 
 bool State::QuitRequested(){
 	return quitRequested;
