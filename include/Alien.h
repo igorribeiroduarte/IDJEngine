@@ -25,14 +25,14 @@ class Alien : public GameObject{
 			public:
 				enum ActionType {MOVE, SHOOT};
 
-				Action(ActionType pType, double x, double y){
+				Action(ActionType pType, Vec2 pFinalPos){
 					type = pType;
-					pos = Vec2(x, y);
+					finalPos = pFinalPos;
 				}
 
 				ActionType type;
 
-				Vec2 pos;
+				Vec2 finalPos;
 		};
 
 		Sprite *sp;
@@ -40,6 +40,8 @@ class Alien : public GameObject{
 		Vec2 speed;
 
 		int hp;
+
+		int countActiveMoveActions;
 
 		std::queue <Action> taskQueue;
 		std::vector < std::unique_ptr <Minion> > minionArray;

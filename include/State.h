@@ -22,7 +22,7 @@ class State{
 		void Update(double dt);
 		void Render();
 		void Input();
-		void AddObject(double mouseX, double mouseY);
+		void AddObject(GameObject *ptr);
 
 	private:
 		Sprite *bg;
@@ -33,6 +33,8 @@ class State{
 		bool quitRequested;
 
 		std::vector < std::unique_ptr <GameObject> > objectArray;
+
+		static State *instance;
 };
 
 #endif

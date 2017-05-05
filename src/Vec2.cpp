@@ -32,20 +32,26 @@ Vec2 *Vec2::translate(double dx, double dy){
 	return newVec;
 }
 
-Vec2 *Vec2::rotate(double angle){
-	double new_x = x * cos(angle) - y * sin(angle);
-	double new_y = x * sin(angle) + y * cos(angle);
+Vec2 *Vec2::rotate(double pAngle){
+	double new_x = x * cos(pAngle) - y * sin(pAngle);
+	double new_y = x * sin(pAngle) + y * cos(pAngle);
 
 	Vec2 *newVec = new Vec2(new_x, new_y);
 
 	return newVec;
 }
 
-Vec2 *Vec2::rotate(double angle, double px, double py){
+Vec2 *Vec2::rotate(double pAngle, double px, double py){
 	Vec2 *newVec = translate(-px, -py);
 
-	newVec = newVec->rotate(angle);
+	newVec = newVec->rotate(pAngle);
 	newVec = newVec->translate(px, py);
 
 	return newVec;
+}
+
+double Vec2::angle(double x, double y){
+	double PI = acos(-1);
+
+	return atan2(y, x);
 }

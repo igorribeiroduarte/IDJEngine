@@ -9,6 +9,8 @@
 #include <cstdlib>
 #include <cmath>
 
+State* State::instance = nullptr;
+
 State::State(){
 	quitRequested = false;
 
@@ -30,6 +32,8 @@ void State::LoadAssets(){
 	bg->Open("img/ocean.jpg");
 }
 
+int aux = 0;
+
 void State::Update(double dt){
 	InputManager &inputManager = InputManager::GetInstance();
 	Camera camera;
@@ -46,11 +50,13 @@ void State::Update(double dt){
 		//AddObject((double)inputManager.GetMouseX(), (double)inputManager.GetMouseY());
 	}
 
-	for(auto it = objectArray.begin(); it < objectArray.end(); it++){
-		(*it)->Update(dt);
+	for(int it = 0; it < (int)objectArray.size(); it++){
+		objectArray[it]->Update(dt);
 
-		if((*it)->IsDead())
-			objectArray.erase(it);
+		if(objectArray[it]->IsDead()){
+			objectArray.erase(objectArray.begin() + it);
+			break;
+		}
 	}
 }
 
@@ -63,6 +69,10 @@ void State::Render(){
 		it->Render();
 
 	tileMap->RenderLayer(1, Camera::pos);
+}
+
+void State::AddObject(GameObject *ptr){
+	objectArray.emplace_back(ptr);
 }
 
 /*

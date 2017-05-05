@@ -16,6 +16,8 @@ Alien::Alien(double x, double y, int nMinions){
 		arc += 2 * PI / nMinions;
 		minionArray.emplace_back(new Minion(this, arc));
 	}
+
+	countActiveMoveActions = 0;
 }
 
 Alien::~Alien(){
@@ -28,48 +30,49 @@ void Alien::Update(double dt){
 	double mouseX = inputManager.GetMouseX();
 	double mouseY = inputManager.GetMouseY();
 
-	double cameraX = Camera::pos[0].x;
-	double cameraY = Camera::pos[0].y;
-
-	double newPosX = mouseX;
-	double newPosY = mouseY;
-
 	if(inputManager.MousePress(InputManager::LEFT_MOUSE_BUTTON)){
-		Action action = Action(Action::ActionType::SHOOT, newPosX, newPosY);
+		Action action = Action(Action::ActionType::SHOOT, Vec2(mouseX, mouseY));
 		taskQueue.emplace(action);
 	}else if(inputManager.MousePress(InputManager::RIGHT_MOUSE_BUTTON)){
-		Action action = Action(Action::ActionType::MOVE, box->x, box->y);
+		Action action = Action(Action::ActionType::MOVE, Vec2(mouseX, mouseY));
 		taskQueue.emplace(action);
+		countActiveMoveActions++;
 	}
 
-	Action action = taskQueue.front();
+	if(not taskQueue.empty()){
+		Action action = taskQueue.front();
 
-	if(action.type == Action::ActionType::SHOOT){
-		//TODO	
-	}else if(action.type == Action::ActionType::MOVE){
-		double deltaT = 200;
+		if(action.type == Action::ActionType::SHOOT){
+			int minionIdx = rand() % minionArray.size();
 
-		speed.x = fabs(action.pos.x - newPosX) / deltaT;
-		speed.y = fabs(action.pos.y - newPosY) / deltaT;
-
-		const double EPS = 1e-9;
-		if(fabs(box->x-newPosX) >= EPS  && fabs(box->y-newPosY) >= EPS){
-			if(newPosX > box->x)
-				box->x += speed.x;
-			else
-				box->x -= speed.x;
-
-			if(newPosY > box->y)
-				box->y += speed.y;
-			else
-				box->y -= speed.y;
-		}else
+			minionArray[minionIdx]->Shoot(action.finalPos);
 			taskQueue.pop();
+		}else if(action.type == Action::ActionType::MOVE){
+			if(countActiveMoveActions > 1){
+				taskQueue.pop();
+				countActiveMoveActions--;
+			}
+
+			double angle = Vec2::angle(box->x - action.finalPos.x, box->y - action.finalPos.y);
+			double speedModule = 500;
+
+			speed.x = cos(angle) * dt * speedModule;
+			speed.y = sin(angle) * dt * speedModule;
+
+			const double EPS = 10;
+			if(fabs(box->x - action.finalPos.x) >= EPS || fabs(box->y - action.finalPos.y) >= EPS){
+				box->x -= speed.x;
+				box->y -= speed.y;
+			}else{
+				taskQueue.pop();
+				countActiveMoveActions--;
+			}
+		}
 	}
 }
 
 void Alien::Render(){
-	sp->Render(box->x + Camera::pos[0].x, box->y + Camera::pos[0].y);	
+	sp->Render(box->GetDrawX() + Camera::pos[0].x, box->GetDrawY() + Camera::pos[0].y);	
 
 	for(auto &it : minionArray){
 		it->Update();
