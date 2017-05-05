@@ -25,6 +25,12 @@ Alien::~Alien(){
 }
 
 void Alien::Update(double dt){
+	for(auto &it : minionArray)
+		it->Update();
+	
+	rotation -= 15*dt;
+	rotation = fmod(rotation + 360, 360);
+
 	InputManager &inputManager = InputManager::GetInstance();
 
 	double mouseX = inputManager.GetMouseX();
@@ -72,12 +78,10 @@ void Alien::Update(double dt){
 }
 
 void Alien::Render(){
-	sp->Render(box->GetDrawX() + Camera::pos[0].x, box->GetDrawY() + Camera::pos[0].y);	
+	sp->Render(box->GetDrawX() + Camera::pos[0].x, box->GetDrawY() + Camera::pos[0].y, rotation);	
 
-	for(auto &it : minionArray){
-		it->Update();
+	for(auto &it : minionArray)
 		it->Render();
-	}
 }
 
 bool Alien::IsDead(){

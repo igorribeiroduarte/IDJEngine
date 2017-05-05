@@ -4,10 +4,15 @@
 
 Sprite::Sprite(){
 	texture = nullptr;
+
+	scaleX = scaleY = 1;
 }
 
 Sprite::Sprite(string file){
 	texture = nullptr;
+
+	scaleX = scaleY = 1;
+
 	Open(file);
 }
 
@@ -36,17 +41,25 @@ void Sprite::SetClip(int x, int y, int w, int h){
 	clipRect = new SDL_Rect { x, y, w, h };
 }
 
-void Sprite::Render(int x, int y){
-	dstRect = new SDL_Rect{ x, y, clipRect->w, clipRect->h };
-	SDL_RenderCopy(Game::GetInstance()->GetRenderer(), texture, clipRect, dstRect);
+void Sprite::Render(int x, int y, double angle){
+	dstRect = new SDL_Rect{ x, y, clipRect->w * scaleX, clipRect->h * scaleY};
+	SDL_RenderCopyEx(Game::GetInstance()->GetRenderer(), texture, clipRect, dstRect, angle, nullptr, SDL_FLIP_NONE);
 }
 
 int Sprite::GetWidth(){
-	return width;
+	return width * scaleX;
 }
 
 int Sprite::GetHeight(){
-	return height;
+	return height * scaleY;
+}
+
+void Sprite::SetScaleX(int scale){
+	scaleX = scale;
+}
+
+void Sprite::SetScaleY(int scale){
+	scaleY = scale;
 }
 
 bool Sprite::IsOpen(){

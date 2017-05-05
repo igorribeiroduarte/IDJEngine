@@ -25,6 +25,8 @@ void Minion::Update(double){
 	pos = pos->translate(200, 0);
 	pos = pos->rotate(arc, centerX, centerY);
 
+	rotation = (arc * 180) / PI + 90;
+
 	box->x = pos->x;
 	box->y = pos->y;
 
@@ -32,7 +34,7 @@ void Minion::Update(double){
 }
 
 void Minion::Render(){
-	sp->Render(box->GetDrawX() + Camera::pos[0].x, box->GetDrawY() + Camera::pos[0].y);	
+	sp->Render(box->GetDrawX() + Camera::pos[0].x, box->GetDrawY() + Camera::pos[0].y, rotation);	
 }
 
 bool Minion::IsDead(){

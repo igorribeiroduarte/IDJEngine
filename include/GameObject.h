@@ -7,6 +7,9 @@ class GameObject{
 	public:
 		Rect *box;
 
+		double rotation;
+
+		GameObject(){ rotation = 0; }
 		virtual ~GameObject(){}
 
 		virtual void Update(double dt) = 0;

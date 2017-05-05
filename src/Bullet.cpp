@@ -11,6 +11,8 @@ Bullet::Bullet(double x, double y, double angle, double speedModule, double maxD
 	speed.y = sin(angle) * speedModule;
 
 	distanceLeft = maxDistance;
+
+	rotation = (angle * 180) / acos(-1);
 }
 
 void Bullet::Update(double dt){
@@ -21,7 +23,7 @@ void Bullet::Update(double dt){
 }
 
 void Bullet::Render(){
-	sp->Render(box->x + Camera::pos[0].x, box->y + Camera::pos[0].y);	
+	sp->Render(box->x + Camera::pos[0].x, box->y + Camera::pos[0].y, rotation);	
 }
 
 bool Bullet::IsDead(){
