@@ -51,7 +51,19 @@ void Alien::Update(double dt){
 		if(action.type == Action::ActionType::SHOOT){
 			int minionIdx = rand() % minionArray.size();
 
-			minionArray[minionIdx]->Shoot(action.finalPos);
+			int idx = 0;
+			double minDistance = hypot(minionArray[0]->box->x - action.finalPos.x, minionArray[0]->box->y - action.finalPos.y);
+			for(int it = 0; it < (int)minionArray.size(); it++){
+				double distance = hypot(minionArray[it]->box->x - action.finalPos.x, minionArray[it]->box->y - action.finalPos.y);
+
+				if(distance < minDistance){
+					minDistance = distance;
+					idx = it;
+				}
+			}
+
+			minionArray[idx]->Shoot(action.finalPos);
+
 			taskQueue.pop();
 		}else if(action.type == Action::ActionType::MOVE){
 			if(countActiveMoveActions > 1){
