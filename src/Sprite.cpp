@@ -2,16 +2,22 @@
 #include "Game.h"
 #include "Resources.h" 
 
-Sprite::Sprite(){
+Sprite::Sprite(int pFrameCount, double pFrameTime){
 	texture = nullptr;
-
 	scaleX = scaleY = 1;
+	timeElapsed = 0;
+	currentFrame = 0;
+	frameTime = pFrameTime;
+	frameCount = pFrameCount;
 }
 
-Sprite::Sprite(string file){
+Sprite::Sprite(string file, int pFrameCount, double pFrameTime){
 	texture = nullptr;
-
 	scaleX = scaleY = 1;
+	timeElapsed = 0;
+	currentFrame = 0;
+	frameTime = pFrameTime;
+	frameCount = pFrameCount;
 
 	Open(file);
 }
@@ -34,11 +40,34 @@ void Sprite::Open(string file){
 		exit(1);
 	}
 
+	width /= frameCount;
+
 	SetClip(0, 0, width, height);
 }
 
 void Sprite::SetClip(int x, int y, int w, int h){
 	clipRect = new SDL_Rect { x, y, w, h };
+}
+
+
+void Sprite::Update(double dt){
+	if(timeElapsed > frameTime)
+		SetFrame(currentFrame % frameCount + 1);
+
+	timeElapsed += dt;
+}
+
+void Sprite::SetFrame(int frame){
+	currentFrame = frame;
+	SetClip(currentFrame * width, clipRect->y, width, height);
+}
+
+void Sprite::SetFrameCount(int count){
+	frameCount = count;
+}
+
+void Sprite::SetFrameTime(double time){
+	frameTime = time;
 }
 
 void Sprite::Render(int x, int y, double angle){

@@ -44,7 +44,7 @@ bool Minion::IsDead(){
 void Minion::Shoot(Vec2 pos){
 	double angle = Vec2::angle(pos.x - box->x, pos.y - box->y);
 
-	Bullet *bullet = new Bullet(box->x, box->y, angle, 100, 1000, "img/minionbullet1.png");
+	Bullet *bullet = new Bullet(box->x, box->y, angle, 100, 1000, "img/minionbullet2.png", 3);
 
 	Game::GetInstance()->GetState()->AddObject(bullet);
 }

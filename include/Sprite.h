@@ -10,12 +10,13 @@ using std::string;
 
 class Sprite{
 	public:
-		Sprite();	
-		Sprite(string file);
+		Sprite(int pFrameCount = 1, double pFrameTime = 1);	
+		Sprite(string file, int pFrameCount = 1, double pFrameTime = 1);
 		~Sprite();
 
 		void Open(string file);
 		void SetClip(int x, int y, int w, int h);
+		void Update(double dt);
 		void Render(int x, int y, double angle = 0);
 		
 		int GetWidth();
@@ -23,6 +24,10 @@ class Sprite{
 
 		void SetScaleX(int scale);
 		void SetScaleY(int scale);
+
+		void SetFrame(int frame);
+		void SetFrameCount(int frameCount);
+		void SetFrameTime(double frameTime);
 
 		bool IsOpen();
 
@@ -34,6 +39,9 @@ class Sprite{
 
 		int width, height;
 		int scaleX, scaleY;
+		int frameCount, currentFrame;
+
+		double timeElapsed, frameTime;
 };
 
 #endif
