@@ -8,6 +8,7 @@
 class Bullet : public GameObject{
 	public:
 		Bullet(double x, double y, double angle, double speedModule, double maxDistance, std::string sprite, int frameCount = 1, double frameTime = 1);
+		~Bullet();
 
 		void Update(double dt = 0);
 		void Render();

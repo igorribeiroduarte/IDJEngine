@@ -10,6 +10,7 @@ class Vec2{
 
 		double length();
 
+		void transform(double module, double angle);
 		void normalize();
 
 		Vec2 *translate(double dx, double dy);

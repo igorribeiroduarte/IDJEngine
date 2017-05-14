@@ -1,6 +1,7 @@
 #include "Penguins.h"
 #include "InputManager.h"
 #include "Camera.h"
+#include "Bullet.h"
 
 #include <cmath>
 
@@ -31,6 +32,8 @@ void Penguins::Update(double dt){
 	const double maxSpeed = 800 * dt;
 	const double angleSpeed = 130 * dt;
 
+	cannonAngle = Vec2::angle(inputManager.GetMouseX() - box->x, inputManager.GetMouseY() - box->y) * 180 / PI; 
+
 	if(inputManager.IsKeyDown(InputManager::W_KEY) && fabs(linearSpeed + aceleration) < maxSpeed)
 		linearSpeed += aceleration;
 
@@ -42,6 +45,9 @@ void Penguins::Update(double dt){
 
 	if(inputManager.IsKeyDown(InputManager::D_KEY))
 		rotation += angleSpeed;
+
+	if(inputManager.MousePress(InputManager::LEFT_MOUSE_BUTTON))
+		Shoot();
 	 
 	speed->x = cos(rotation / 180 * PI) * linearSpeed;
 	speed->y = sin(rotation / 180 * PI) * linearSpeed;
@@ -52,7 +58,7 @@ void Penguins::Update(double dt){
 
 void Penguins::Render(){
 	bodySp->Render(box->GetDrawX() + Camera::pos[0].x, box->GetDrawY() + Camera::pos[0].y, rotation);	
-	cannonSp->Render(box->x - cannonSp->GetWidth() / 2 + Camera::pos[0].x, box->y - cannonSp->GetHeight() / 2 + Camera::pos[0].y, rotation);	
+	cannonSp->Render(box->x - cannonSp->GetWidth() / 2 + Camera::pos[0].x, box->y - cannonSp->GetHeight() / 2 + Camera::pos[0].y, cannonAngle);	
 }
 
 bool Penguins::IsDead(){
@@ -60,5 +66,13 @@ bool Penguins::IsDead(){
 }
 
 void Penguins::Shoot(){
-	
+	const double PI = acos(-1);
+	const double cannonAngleRad = cannonAngle / 180 * PI;
+
+	Vec2 v;
+	v.transform(cannonSp->GetWidth() / 2.0, cannonAngleRad);
+
+	Bullet *bullet = new Bullet(box->GetDrawX() + v.x , box->GetDrawY() + v.y, cannonAngleRad, 100, 1000, "img/penguinbullet.png", 4, 6);
+
+	Game::GetInstance()->GetState()->AddObject(bullet);
 }

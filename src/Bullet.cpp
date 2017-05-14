@@ -17,6 +17,11 @@ Bullet::Bullet(double x, double y, double angle, double speedModule, double maxD
 	rotation = (angle * 180) / acos(-1);
 }
 
+Bullet::~Bullet(){
+	delete(sp);
+	delete(box);
+}
+
 void Bullet::Update(double dt){
 	sp->Update(dt);
 

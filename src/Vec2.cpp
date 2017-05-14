@@ -17,6 +17,11 @@ double Vec2::length(){
 	return hypot(x, y);
 }
 
+void Vec2::transform(double module, double pAngle){
+	x = module * cos(pAngle);
+	y = module * sin(pAngle);
+}
+
 void Vec2::normalize(){
 	double len = length();
 
@@ -51,7 +56,5 @@ Vec2 *Vec2::rotate(double pAngle, double px, double py){
 }
 
 double Vec2::angle(double x, double y){
-	double PI = acos(-1);
-
 	return atan2(y, x);
 }
