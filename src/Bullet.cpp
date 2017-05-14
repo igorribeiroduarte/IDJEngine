@@ -5,6 +5,8 @@
 
 Bullet::Bullet(double x, double y, double angle, double speedModule, double maxDistance, std::string sprite, int frameCount, double frameTime){
 	sp = new Sprite(sprite, frameCount, frameTime);
+	sp->SetScaleX(2);
+	sp->SetScaleY(2);
 	box = new Rect(x, y, sp->GetWidth(), sp->GetHeight());
 
 	speed.x = cos(angle) * speedModule;

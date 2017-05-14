@@ -71,7 +71,7 @@ void Alien::Update(double dt){
 				countActiveMoveActions--;
 			}
 
-			double angle = Vec2::angle(box->x - action.finalPos.x, box->y - action.finalPos.y);
+			double angle = Vec2::angle(action.finalPos.x - box->x, action.finalPos.y -  box->y);
 			double speedModule = 500;
 
 			speed.x = cos(angle) * dt * speedModule;
@@ -79,8 +79,8 @@ void Alien::Update(double dt){
 
 			const double EPS = 10;
 			if(fabs(box->x - action.finalPos.x) >= EPS || fabs(box->y - action.finalPos.y) >= EPS){
-				box->x -= speed.x;
-				box->y -= speed.y;
+				box->x += speed.x;
+				box->y += speed.y;
 			}else{
 				taskQueue.pop();
 				countActiveMoveActions--;

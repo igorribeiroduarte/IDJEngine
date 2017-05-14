@@ -5,6 +5,7 @@
 #include "Alien.h"
 #include "Vec2.h"
 #include "Camera.h"
+#include "Penguins.h"
 
 #include <cstdlib>
 #include <cmath>
@@ -21,6 +22,10 @@ State::State(){
 
 	Alien *alien = new Alien(512, 300, 5);
 	objectArray.emplace_back(alien);
+
+	Penguins *penguins = new Penguins(704, 640);
+	Camera::Follow(penguins);
+	objectArray.emplace_back(penguins);
 }
 
 State::~State(){
@@ -44,10 +49,6 @@ void State::Update(double dt){
 	
 	if(inputManager.KeyPress(SDLK_ESCAPE) || inputManager.QuitRequested()){
 		quitRequested = true;
-	}
-
-	if(inputManager.KeyPress(SDLK_SPACE)){
-		//AddObject((double)inputManager.GetMouseX(), (double)inputManager.GetMouseY());
 	}
 
 	for(int it = 0; it < (int)objectArray.size(); it++){
@@ -74,22 +75,6 @@ void State::Render(){
 void State::AddObject(GameObject *ptr){
 	objectArray.emplace_back(ptr);
 }
-
-/*
-void State::AddObject(double mouseX, double mouseY){
-	double angle = ((rand() % 360) * acos(-1))/180.0;
-	
-	Vec2 *vec = new Vec2(mouseX, mouseY);
-
-	vec = vec->translate(200, 0);
-	vec = vec->rotate(angle, mouseX, mouseY);
-
-	Face *face = new Face(vec->x, vec->y);
-
-	delete(vec);
-
-	objectArray.emplace_back(face);
-}*/
 
 bool State::QuitRequested(){
 	return quitRequested;

@@ -51,8 +51,10 @@ void Sprite::SetClip(int x, int y, int w, int h){
 
 
 void Sprite::Update(double dt){
-	if(timeElapsed > frameTime)
-		SetFrame(currentFrame % frameCount + 1);
+	if(timeElapsed > frameTime){
+		timeElapsed = 0;
+		SetFrame((currentFrame + 1) % frameCount);
+	}
 
 	timeElapsed += dt;
 }

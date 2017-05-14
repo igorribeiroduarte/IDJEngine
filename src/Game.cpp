@@ -6,7 +6,7 @@
 #include <cstdlib>
 #include <ctime>
 
-Game* Game::instance = nullptr;
+Game *Game::instance = nullptr;
 
 Game::Game(string title, int width, int height){
 	if(instance != nullptr){

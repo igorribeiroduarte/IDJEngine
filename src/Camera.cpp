@@ -21,9 +21,9 @@ void Camera::Update(double dt){
 	speed[1].x = 0;
 	speed[1].y = 0;
 
-	if(focus){
-		
-	}else{
+	if(focus)
+		pos[0] = pos[1] = Vec2(SCREEN_WIDTH / 2 - focus->box->x, SCREEN_HEIGHT / 2 - focus->box->y);
+	else{
 		if(inputManager.IsKeyDown(InputManager::RIGHT_ARROW_KEY)){
 			speed[0].x = 1.0 / dt;
 			speed[0].y = 0;

@@ -29,3 +29,5 @@
 
 # Vim Files
 *.swp
+*.swo
+*.swn
