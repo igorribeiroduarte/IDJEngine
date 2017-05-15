@@ -25,3 +25,7 @@ bool Rect::IsInside(double px, double py){
 
 	return inside;
 }
+
+Rect Rect::GetCenter(){
+	return Rect(x + width / 2, y + height / 2);
+}

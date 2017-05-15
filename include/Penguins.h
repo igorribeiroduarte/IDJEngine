@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "Sprite.h"
 #include "Vec2.h"
+#include "Timer.h"
 
 class Penguins : public GameObject{
 	public:
@@ -13,8 +14,10 @@ class Penguins : public GameObject{
 		void Update(double dt);
 		void Render();
 		void Shoot();
+		void NotifyCollision(GameObject &other);
 
 		bool IsDead();
+		bool Is(std::string type);
 
 		static Penguins *player;
 
@@ -26,6 +29,8 @@ class Penguins : public GameObject{
 		double linearSpeed, cannonAngle;
 
 		int hp;
+
+		Timer timer;
 };
 
 #endif

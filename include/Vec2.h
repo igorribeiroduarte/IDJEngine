@@ -1,12 +1,19 @@
 #ifndef VEC2_H
 #define VEC2_H
 
+#include "Rect.h"
+
 class Vec2{
 	public:
 		double x, y;
 	
 		Vec2();
 		Vec2(double x, double y);
+		Vec2(Rect r);
+
+		Vec2 operator+(const Vec2& rhs) const;
+		Vec2 operator-(const Vec2& rhs) const;
+		Vec2 operator*(const float rhs) const;
 
 		double length();
 

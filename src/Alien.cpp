@@ -1,6 +1,8 @@
 #include "Alien.h"
 #include "InputManager.h"
 #include "Camera.h"
+#include "Bullet.h"
+#include "Animation.h"
 
 #include <cmath>
 
@@ -101,4 +103,21 @@ bool Alien::IsDead(){
 		return true;
 	else
 		return false;
+}
+
+void Alien::NotifyCollision(GameObject &other){
+	if(other.Is("bullet")){
+		if(!((Bullet &)other).targetsPlayer){
+			hp -= 5;
+			
+			if(IsDead()){
+				Animation *animation = new Animation(box->x, box->y, rotation, "img/aliendeath.png", 4, 1, 4, true);			
+				Game::GetInstance()->GetState()->AddObject(animation);
+			}
+		}
+	}
+}
+
+bool Alien::Is(std::string type){
+	return (type == "alien");
 }

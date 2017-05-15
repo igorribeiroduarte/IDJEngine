@@ -44,7 +44,15 @@ bool Minion::IsDead(){
 void Minion::Shoot(Vec2 pos){
 	double angle = Vec2::angle(pos.x - box->x, pos.y - box->y);
 
-	Bullet *bullet = new Bullet(box->x, box->y, angle, 100, 1000, "img/minionbullet2.png", 3);
+	Bullet *bullet = new Bullet(box->x, box->y, angle, 100, 1000, "img/minionbullet2.png", 3, 1, true);
 
 	Game::GetInstance()->GetState()->AddObject(bullet);
+}
+
+void Minion::NotifyCollision(GameObject &other){
+
+}
+
+bool Minion::Is(std::string type){
+	return (type == "minion");
 }

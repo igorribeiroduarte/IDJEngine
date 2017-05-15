@@ -6,6 +6,7 @@
 #include "Vec2.h"
 #include "Camera.h"
 #include "Penguins.h"
+#include "Collision.h"
 
 #include <cstdlib>
 #include <cmath>
@@ -59,6 +60,29 @@ void State::Update(double dt){
 			break;
 		}
 	}
+
+	
+	for(int it = 0; it < (int)objectArray.size(); it++){
+		for(int it2 = it + 1; it2 < (int)objectArray.size(); it2++){
+			Rect itBox = *objectArray[it]->box;
+			Rect it2Box = *objectArray[it2]->box;
+
+			itBox.x = itBox.GetDrawX() + Camera::pos[0].x;
+			itBox.y = itBox.GetDrawY() + Camera::pos[0].y ;
+
+			it2Box.x = it2Box.GetDrawX() + Camera::pos[0].x;
+			it2Box.y = it2Box.GetDrawY() + Camera::pos[0].y; 
+
+			double itAngle = objectArray[it]->rotation;
+			double it2Angle = objectArray[it2]->rotation;
+
+			if(Collision::IsColliding(itBox, it2Box, itAngle, it2Angle)){
+				objectArray[it]->NotifyCollision(*objectArray[it2]);
+				objectArray[it2]->NotifyCollision(*objectArray[it]);
+			}
+		}
+	}
+	
 }
 
 void State::Render(){

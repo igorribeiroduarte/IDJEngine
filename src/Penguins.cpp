@@ -2,6 +2,7 @@
 #include "InputManager.h"
 #include "Camera.h"
 #include "Bullet.h"
+#include "Animation.h"
 
 #include <cmath>
 
@@ -14,7 +15,7 @@ Penguins::Penguins(double x, double y){
 	cannonAngle = linearSpeed = 0;
 	box = new Rect(x, y, bodySp->GetWidth(), bodySp->GetHeight());
 	player = this;
-	hp = 30;
+	hp = 10; 
 }
 
 Penguins::~Penguins(){
@@ -25,6 +26,8 @@ Penguins::~Penguins(){
 }
 
 void Penguins::Update(double dt){
+	timer.Update(dt);
+
 	InputManager &inputManager = InputManager::GetInstance();
 
 	const double PI = acos(-1);
@@ -62,17 +65,44 @@ void Penguins::Render(){
 }
 
 bool Penguins::IsDead(){
-	return (hp <= 0);
+	if(hp <= 0){
+		Camera::Unfollow();
+		return true;
+	}
+	
+	return false;
 }
 
 void Penguins::Shoot(){
 	const double PI = acos(-1);
 	const double cannonAngleRad = cannonAngle / 180 * PI;
 
-	Vec2 v;
-	v.transform(cannonSp->GetWidth() / 2.0, cannonAngleRad);
+	double timeLimit = 1;
 
-	Bullet *bullet = new Bullet(box->GetDrawX() + v.x , box->GetDrawY() + v.y, cannonAngleRad, 100, 1000, "img/penguinbullet.png", 4, 6);
+	if(timer.Get() > timeLimit){
+		timer.Restart();
 
-	Game::GetInstance()->GetState()->AddObject(bullet);
+		Vec2 v;
+		v.transform(cannonSp->GetWidth() / 2.0, cannonAngleRad);
+
+		Bullet *bullet = new Bullet(box->GetDrawX() + v.x , box->GetDrawY() + v.y, cannonAngleRad, 100, 1000, "img/penguinbullet.png", 4, 6, false);
+
+		Game::GetInstance()->GetState()->AddObject(bullet);
+	}
+}
+
+void Penguins::NotifyCollision(GameObject &other){
+	if(other.Is("bullet")){
+		if(((Bullet &)other).targetsPlayer){
+			hp -= 5;
+			if(IsDead()){
+				Animation *animation = new Animation(box->x, box->y, rotation, "img/penguindeath.png", 5, 1, 5, true);			
+				Game::GetInstance()->GetState()->AddObject(animation);
+			}
+		}
+	}
+}
+
+bool Penguins::Is(std::string type){
+	return (type == "penguins");
 }

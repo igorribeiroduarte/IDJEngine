@@ -7,12 +7,14 @@ class Rect{
 		double x, y;
 		double width, height;
 
-		Rect(double px, double py, double w, double h);
+		Rect(double px = 0, double py = 0, double w = 0, double h = 0);
 
 		double GetDrawX();
 		double GetDrawY();
 
 		bool IsInside(double x, double y);
+
+		Rect GetCenter();
 };
 
 #endif

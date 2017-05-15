@@ -17,8 +17,10 @@ class Alien : public GameObject{
 
 		void Update(double dt);
 		void Render();
+		void NotifyCollision(GameObject &other);
 
 		bool IsDead();
+		bool Is(std::string type);
 
 	private:
 		class Action{
