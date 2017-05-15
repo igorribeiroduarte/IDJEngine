@@ -5,6 +5,7 @@
 #include "Sprite.h"
 #include "Minion.h"
 #include "Vec2.h"
+#include "Timer.h"
 
 #include <memory>
 #include <vector>
@@ -12,6 +13,8 @@
 
 class Alien : public GameObject{
 	public:
+		int alienCount = 0;
+
 		Alien(double x, double y, int nMinions);
 		~Alien();
 
@@ -23,19 +26,13 @@ class Alien : public GameObject{
 		bool Is(std::string type);
 
 	private:
-		class Action{
-			public:
-				enum ActionType {MOVE, SHOOT};
+		enum AlienState {MOVING, RESTING};
+		
+		AlienState state;
 
-				Action(ActionType pType, Vec2 pFinalPos){
-					type = pType;
-					finalPos = pFinalPos;
-				}
+		Timer restTimer;
 
-				ActionType type;
-
-				Vec2 finalPos;
-		};
+		Vec2 destination;
 
 		Sprite *sp;
 
@@ -45,7 +42,6 @@ class Alien : public GameObject{
 
 		int countActiveMoveActions;
 
-		std::queue <Action> taskQueue;
 		std::vector < std::unique_ptr <Minion> > minionArray;
 };
 

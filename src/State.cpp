@@ -1,7 +1,6 @@
 #include "State.h"
 #include "Sprite.h"
 #include "InputManager.h"
-#include "Face.h"
 #include "Alien.h"
 #include "Vec2.h"
 #include "Camera.h"
@@ -64,8 +63,8 @@ void State::Update(double dt){
 	
 	for(int it = 0; it < (int)objectArray.size(); it++){
 		for(int it2 = it + 1; it2 < (int)objectArray.size(); it2++){
-			Rect itBox = *objectArray[it]->box;
-			Rect it2Box = *objectArray[it2]->box;
+			Rect itBox = objectArray[it]->box;
+			Rect it2Box = objectArray[it2]->box;
 
 			itBox.x = itBox.GetDrawX() + Camera::pos[0].x;
 			itBox.y = itBox.GetDrawY() + Camera::pos[0].y ;

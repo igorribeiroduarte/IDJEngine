@@ -7,7 +7,7 @@ Bullet::Bullet(double x, double y, double angle, double pSpeedModule, double max
 	sp = new Sprite(sprite, frameCount, frameTime);
 	sp->SetScaleX(2);
 	sp->SetScaleY(2);
-	box = new Rect(x, y, sp->GetWidth(), sp->GetHeight());
+	box = Rect(x, y, sp->GetWidth(), sp->GetHeight());
 
 	speedModule = pSpeedModule;
 
@@ -23,20 +23,19 @@ Bullet::Bullet(double x, double y, double angle, double pSpeedModule, double max
 
 Bullet::~Bullet(){
 	delete(sp);
-	delete(box);
 }
 
 void Bullet::Update(double dt){
 	sp->Update(dt);
 
-	box->x += speed.x * dt;
-	box->y += speed.y * dt;
+	box.x += speed.x * dt;
+	box.y += speed.y * dt;
 
 	distanceLeft -= speedModule * dt;	
 }
 
 void Bullet::Render(){
-	sp->Render(box->x + Camera::pos[0].x, box->y + Camera::pos[0].y, rotation);	
+	sp->Render(box.x + Camera::pos[0].x, box.y + Camera::pos[0].y, rotation);	
 }
 
 bool Bullet::IsDead(){

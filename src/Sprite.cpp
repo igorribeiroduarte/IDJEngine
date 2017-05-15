@@ -23,8 +23,6 @@ Sprite::Sprite(string file, int pFrameCount, double pFrameTime){
 }
 
 Sprite::~Sprite(){
-	delete(clipRect);
-	delete(dstRect);
 }
 
 void Sprite::Open(string file){

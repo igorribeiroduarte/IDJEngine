@@ -7,7 +7,7 @@
 
 class GameObject{
 	public:
-		Rect *box;
+		Rect box;
 
 		double rotation;
 
