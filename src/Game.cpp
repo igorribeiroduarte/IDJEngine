@@ -15,14 +15,14 @@ Game::Game(string title, int width, int height){
 	}else
 		instance = this;
 
-	if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER) != 0){
-		printf("Falha ao executar a função SDL_Init: %s\n", SDL_GetError());
-		exit(1);
-	}
-
 	int flags_img_init = IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF;
 	if(IMG_Init(flags_img_init) != flags_img_init){
 		printf("Falha ao inicializar o suporte a imagens no jogo: %s\n", IMG_GetError());
+		exit(1);
+	}
+
+	if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER) != 0){
+		printf("Falha ao executar a função SDL_Init: %s\n", SDL_GetError());
 		exit(1);
 	}
 
@@ -39,7 +39,17 @@ Game::Game(string title, int width, int height){
 		printf("Falha ao criar renderizador: %s\n", SDL_GetError());
 		exit(1);
 	}
+	
+	if(Mix_Init(MIX_INIT_FLAC | MIX_INIT_MP3 | MIX_INIT_OGG | MIX_INIT_MOD | MIX_INIT_FLUIDSYNTH | MIX_INIT_MODPLUG) < 0){
+		printf("Falha ao executar a função Mix_Init: %s\n", SDL_GetError());
+		exit(1);
+	}
 
+	if(Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024) < 0){
+		printf("Falha ao executar a função Mix_OpenAudio: %s\n", SDL_GetError());
+		exit(1);
+	}
+	
 	srand(time(NULL));
 
 	storedState = nullptr;
@@ -60,6 +70,10 @@ Game::~Game(){
 	SDL_DestroyRenderer(renderer);
 
 	SDL_DestroyWindow(window);
+
+	Mix_CloseAudio();
+
+	Mix_Quit();
 	
 	SDL_Quit();
 }

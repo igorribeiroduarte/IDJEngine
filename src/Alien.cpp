@@ -4,6 +4,7 @@
 #include "Bullet.h"
 #include "Animation.h"
 #include "Penguins.h"
+#include "Sound.h"
 
 #include <cmath>
 
@@ -104,6 +105,9 @@ void Alien::NotifyCollision(GameObject &other){
 			if(IsDead()){
 				Animation *animation = new Animation(box.x, box.y, rotation, "img/aliendeath.png", 4, 1, 4, true);			
 				Game::GetInstance()->GetCurrentState()->AddObject(animation);
+
+				Sound *sound = new Sound("audio/boom.wav");
+				sound->Play(0);
 			}
 		}
 	}

@@ -3,6 +3,7 @@
 #include "Camera.h"
 #include "Bullet.h"
 #include "Animation.h"
+#include "Sound.h"
 
 #include <cmath>
 
@@ -98,6 +99,9 @@ void Penguins::NotifyCollision(GameObject &other){
 			if(IsDead()){
 				Animation *animation = new Animation(box.x, box.y, rotation, "img/penguindeath.png", 5, 1, 5, true);			
 				Game::GetInstance()->GetCurrentState()->AddObject(animation);
+
+				Sound *sound = new Sound("audio/boom.wav");
+				sound->Play(0);
 			}
 		}
 	}
