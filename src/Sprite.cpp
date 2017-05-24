@@ -33,7 +33,7 @@ void Sprite::Open(string file){
 		exit(1);
 	}
 
-	if(SDL_QueryTexture(texture, nullptr, nullptr, &width, &height) != 0){
+	if(SDL_QueryTexture(texture.get(), nullptr, nullptr, &width, &height) != 0){
 		printf("Falha ao pegar as dimensões da imagem: %s\n", SDL_GetError());
 		exit(1);
 	}
@@ -72,7 +72,7 @@ void Sprite::SetFrameTime(double time){
 
 void Sprite::Render(int x, int y, double angle){
 	dstRect = new SDL_Rect{ x, y, clipRect->w * scaleX, clipRect->h * scaleY};
-	SDL_RenderCopyEx(Game::GetInstance()->GetRenderer(), texture, clipRect, dstRect, angle, nullptr, SDL_FLIP_NONE);
+	SDL_RenderCopyEx(Game::GetInstance()->GetRenderer(), texture.get(), clipRect, dstRect, angle, nullptr, SDL_FLIP_NONE);
 }
 
 int Sprite::GetWidth(){

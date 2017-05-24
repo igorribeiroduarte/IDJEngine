@@ -84,8 +84,12 @@ void Game::Run(){
 	stateStack.top()->LoadAssets();
 
 	while(not stateStack.empty()){
-		if(stateStack.top()->QuitRequested())
+		if(stateStack.top()->QuitRequested()){
+			while(not stateStack.empty())
+				stateStack.pop();
+
 			break;
+		}
 
 		CalculateDeltaTime();
 

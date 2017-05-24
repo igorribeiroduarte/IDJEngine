@@ -5,6 +5,7 @@
 #include "SDL2/SDL_image.h"
 
 #include <string>
+#include <memory>
 
 using std::string;
 
@@ -32,7 +33,7 @@ class Sprite{
 		bool IsOpen();
 
 	private:
-		SDL_Texture *texture;
+		std::shared_ptr <SDL_Texture> texture;
 
 		SDL_Rect *clipRect;
 		SDL_Rect *dstRect;
