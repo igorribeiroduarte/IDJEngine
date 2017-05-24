@@ -42,14 +42,18 @@ Game::Game(string title, int width, int height){
 
 	srand(time(NULL));
 
-	state = new State();
+	storedState = nullptr;
 
 	frameStart = 0;
 	dt = 0;
 }
 
 Game::~Game(){
-	delete(state);
+	if(storedState)
+		delete(storedState);
+
+	while(not stateStack.empty())
+		stateStack.pop();
 
 	IMG_Quit();
 
@@ -64,24 +68,41 @@ Game *Game::GetInstance(){
 	return instance;
 }
 
-State *Game::GetState(){
-	return state;
-}
-
 SDL_Renderer *Game::GetRenderer(){
 	return renderer;
 }
 
 void Game::Run(){
-	state->LoadAssets();
+	if(storedState){
+		stateStack.emplace(storedState);
+		storedState = nullptr;
+	}else{
+		printf("Estado inicial não encontrado\n");
+		exit(1);
+	}
+	
+	stateStack.top()->LoadAssets();
 
-	while(not state->QuitRequested()){
+	while(not stateStack.empty()){
+		if(stateStack.top()->QuitRequested())
+			break;
+
 		CalculateDeltaTime();
 
-		state->Update(dt);
-		state->Render();
+		stateStack.top()->Update(dt);
+		stateStack.top()->Render();
 
 		SDL_RenderPresent(renderer);
+
+		if(storedState){
+			if(not stateStack.empty())
+				stateStack.top()->Pause();
+
+			stateStack.emplace(storedState);
+			storedState = nullptr;
+
+			stateStack.top()->LoadAssets();
+		}
 
 		SDL_Delay(33);
 	}
@@ -99,4 +120,12 @@ void Game::CalculateDeltaTime(){
 
 double Game::GetDeltaTime(){
 	return dt;
+}
+
+State *Game::GetCurrentState(){
+	return stateStack.top().get();
+}
+
+void Game::Push(State *state){
+	storedState = state;	
 }

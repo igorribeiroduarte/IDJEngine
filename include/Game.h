@@ -7,6 +7,8 @@
 #include "State.h"
 
 #include <string>
+#include <stack>
+#include <memory>
 
 using namespace std;
 
@@ -18,13 +20,15 @@ class Game{
 
 		void Run();
 
+		void Push(State *state);
+
 		static Game *GetInstance();
 
 		double GetDeltaTime();
 
-		State *GetState();
-
 		SDL_Renderer *GetRenderer();
+
+		State *GetCurrentState();
 		
 	private:
 		void CalculateDeltaTime();
@@ -35,9 +39,11 @@ class Game{
 
 		SDL_Renderer *renderer;
 
-		State *state;
+		State *storedState;
 
 		int frameStart;
+
+		stack < unique_ptr <State> > stateStack;
 
 		double dt;
 };

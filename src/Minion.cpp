@@ -46,7 +46,7 @@ void Minion::Shoot(Vec2 pos){
 
 	Bullet *bullet = new Bullet(box.x, box.y, angle, 100, 1000, "img/minionbullet2.png", 3, 1, true);
 
-	Game::GetInstance()->GetState()->AddObject(bullet);
+	Game::GetInstance()->GetCurrentState()->AddObject(bullet);
 }
 
 void Minion::NotifyCollision(GameObject &other){

@@ -87,7 +87,7 @@ void Penguins::Shoot(){
 
 		Bullet *bullet = new Bullet(box.GetDrawX() + v.x , box.GetDrawY() + v.y, cannonAngleRad, 100, 1000, "img/penguinbullet.png", 4, 6, false);
 
-		Game::GetInstance()->GetState()->AddObject(bullet);
+		Game::GetInstance()->GetCurrentState()->AddObject(bullet);
 	}
 }
 
@@ -97,7 +97,7 @@ void Penguins::NotifyCollision(GameObject &other){
 			hp -= 5;
 			if(IsDead()){
 				Animation *animation = new Animation(box.x, box.y, rotation, "img/penguindeath.png", 5, 1, 5, true);			
-				Game::GetInstance()->GetState()->AddObject(animation);
+				Game::GetInstance()->GetCurrentState()->AddObject(animation);
 			}
 		}
 	}
