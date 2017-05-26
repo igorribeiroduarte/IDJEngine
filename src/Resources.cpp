@@ -4,6 +4,7 @@
 std::unordered_map <std::string, std::shared_ptr <SDL_Texture> > Resources::imageTable;
 std::unordered_map <std::string, std::shared_ptr <Mix_Music> > Resources::musicTable;
 std::unordered_map <std::string, std::shared_ptr <Mix_Chunk> > Resources::soundTable;
+std::unordered_map <std::string, std::shared_ptr <TTF_Font> > Resources::fontTable;
 
 std::shared_ptr <SDL_Texture> Resources::GetImage(std::string file){
 	if(imageTable.find(file) == imageTable.end()){
@@ -34,7 +35,7 @@ std::shared_ptr <Mix_Music> Resources::GetMusic(std::string file){
 		Mix_Music *music = Mix_LoadMUS(file.c_str());
 
 		if(not music){
-			printf("Erro ao carregar muśica: %s\n", SDL_GetError());
+			printf("Erro ao carregar música: %s\n", SDL_GetError());
 			exit(1);
 		}
 
@@ -74,5 +75,31 @@ void Resources::ClearSound(){
 	for(auto it = soundTable.begin(); it != soundTable.end(); it++){
 		if(it->second.unique())
 			soundTable.erase(it);
+	}
+}
+
+std::shared_ptr <TTF_Font> Resources::GetFont(std::string file, int fontSize){
+	string fontKey = file + to_string(fontSize);
+
+	if(fontTable.find(fontKey) == fontTable.end()){
+		TTF_Font *font = TTF_OpenFont(file.c_str(), fontSize);
+
+		if(not font){
+			printf("Erro ao carregar fonte: %s\n", SDL_GetError());
+			exit(1);
+		}
+
+		std::shared_ptr <TTF_Font> ptr(font, [](TTF_Font *f){ TTF_CloseFont(f); });
+
+		fontTable.emplace(fontKey, ptr);
+	}
+	
+	return fontTable[fontKey];
+}
+
+void Resources::ClearFonts(){
+	for(auto it = fontTable.begin(); it != fontTable.end(); it++){
+		if(it->second.unique())
+			fontTable.erase(it);
 	}
 }

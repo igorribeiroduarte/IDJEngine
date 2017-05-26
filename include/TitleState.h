@@ -1,5 +1,7 @@
 #include "State.h"
 #include "Sprite.h"
+#include "Text.h"
+#include "Timer.h"
 
 class TitleState : public State{
 	public:
@@ -12,6 +14,10 @@ class TitleState : public State{
 		void Pause();
 		void Resume();
 
+		void LoadAssets();
+
 	private:
 		Sprite *bg;
+		Text *text;
+		Timer timer;
 };

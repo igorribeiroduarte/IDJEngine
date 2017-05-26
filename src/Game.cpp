@@ -41,12 +41,17 @@ Game::Game(string title, int width, int height){
 	}
 	
 	if(Mix_Init(MIX_INIT_FLAC | MIX_INIT_MP3 | MIX_INIT_OGG | MIX_INIT_MOD | MIX_INIT_FLUIDSYNTH | MIX_INIT_MODPLUG) < 0){
-		printf("Falha ao executar a função Mix_Init: %s\n", SDL_GetError());
+		printf("Falha ao executar a função Mix_Init: %s\n", Mix_GetError());
 		exit(1);
 	}
 
 	if(Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024) < 0){
-		printf("Falha ao executar a função Mix_OpenAudio: %s\n", SDL_GetError());
+		printf("Falha ao executar a função Mix_OpenAudio: %s\n", Mix_GetError());
+		exit(1);
+	}
+
+	if(TTF_Init() == -1){
+		printf("Falha ao executar a função TTF_Init: %s\n", TTF_GetError());
 		exit(1);
 	}
 	
@@ -65,16 +70,12 @@ Game::~Game(){
 	while(not stateStack.empty())
 		stateStack.pop();
 
+	TTF_Quit();
 	IMG_Quit();
-
-	SDL_DestroyRenderer(renderer);
-
-	SDL_DestroyWindow(window);
-
-	Mix_CloseAudio();
-
 	Mix_Quit();
-	
+	SDL_DestroyRenderer(renderer);
+	SDL_DestroyWindow(window);
+	Mix_CloseAudio();
 	SDL_Quit();
 }
 
@@ -125,7 +126,7 @@ void Game::Run(){
 		SDL_Delay(33);
 	}
 
-	Resources::ClearImages();
+//	Resources::ClearImages();
 }
 
 void Game::CalculateDeltaTime(){
