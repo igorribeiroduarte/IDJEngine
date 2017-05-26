@@ -13,7 +13,7 @@
 
 class Alien : public GameObject{
 	public:
-		int alienCount = 0;
+		static int alienCount;
 
 		Alien(double x, double y, int nMinions);
 		~Alien();

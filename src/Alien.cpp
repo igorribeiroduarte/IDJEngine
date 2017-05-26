@@ -8,6 +8,8 @@
 
 #include <cmath>
 
+int Alien::alienCount = 0;
+
 Alien::Alien(double x, double y, int nMinions){
 	sp = new Sprite("img/alien.png");
 	box = Rect(x, y, sp->GetWidth(), sp->GetHeight());

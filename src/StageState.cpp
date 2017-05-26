@@ -6,6 +6,8 @@
 #include "Camera.h"
 #include "Penguins.h"
 #include "Collision.h"
+#include "StateData.h"
+#include "EndState.h"
 
 #include <cstdlib>
 #include <cmath>
@@ -45,8 +47,23 @@ void StageState::Update(double dt){
 
 	camera.Update(dt);
 	
-	if(inputManager.KeyPress(SDLK_ESCAPE) || inputManager.QuitRequested()){
+	if(inputManager.KeyPress(SDLK_ESCAPE) || inputManager.QuitRequested())
 		quitRequested = true;
+
+	StateData stateData;
+
+	if(Penguins::player == nullptr){
+		stateData.playerVictory = false;
+		Game::GetInstance()->Push(new EndState(stateData));
+		popRequested = true;
+		return;
+	}
+
+	if(Alien::alienCount == 0){
+		stateData.playerVictory = true;
+		Game::GetInstance()->Push(new EndState(stateData));
+		popRequested = true;
+		return;
 	}
 
 	for(int it = 0; it < (int)objectArray.size(); it++){
