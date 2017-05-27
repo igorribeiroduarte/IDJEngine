@@ -56,8 +56,10 @@ void Penguins::Update(double dt){
 	speed->x = cos(rotation / 180 * PI) * linearSpeed;
 	speed->y = sin(rotation / 180 * PI) * linearSpeed;
 
-	box.x += speed->x;
-	box.y += speed->y;
+	if(box.x + speed->x <= 1408 && box.x + speed->x >= 0 && box.y + speed->y <= 1280 && box.y + speed->y >=0){
+		box.x += speed->x;
+		box.y += speed->y;
+	}
 }
 
 void Penguins::Render(){

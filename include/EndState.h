@@ -22,7 +22,7 @@ class EndState : public State{
 	private:
 		Sprite *bg;
 		Music music;
-		Text instruction;
+		Text *instruction;
 
 };
 

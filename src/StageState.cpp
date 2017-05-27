@@ -20,8 +20,12 @@ StageState::StageState(){
 	tileSet = new TileSet(64, 64, "img/tileset.png");
 	tileMap = new TileMap("map/tileMap.txt", tileSet);
 
-	Alien *alien = new Alien(512, 300, 5);
-	objectArray.emplace_back(alien);
+	AddObject(new Alien(200, 800, 5));
+    AddObject(new Alien(100, 550, 5));
+    AddObject(new Alien(412, 200, 5));
+    AddObject(new Alien(50, 200, 5));
+    AddObject(new Alien(600, 600, 5));
+    AddObject(new Alien(1000, 1000, 5));
 
 	Penguins *penguins = new Penguins(704, 640);
 	Camera::Follow(penguins);
@@ -59,7 +63,7 @@ void StageState::Update(double dt){
 		return;
 	}
 
-	if(Alien::alienCount == 0){
+	if(Alien::alienCount <= 0){
 		stateData.playerVictory = true;
 		Game::GetInstance()->Push(new EndState(stateData));
 		popRequested = true;
